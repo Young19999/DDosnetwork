@@ -33,8 +33,22 @@ class Server:
     def is_attacking(self):
         return self.attacking
 
-    def server_status():
-        
+    def server_status(self):
+        if self.target_ip == "None" and self.attack == "None" and self.attacking == False:
+            return "\nServer started, waiting for client connections...\n"
+        elif self.attack == "HALT" and self.target_ip != "None":
+            return "\nAttack halted. Waiting for commands.\n"
+        elif self.attacking == True and self.attack == "None":
+            self.attacking = False
+            return "\nPlease, enter attack type.\n"
+        elif self.attacking == True and self.target_ip == "None":
+            self.attacking = False
+            return "\nPlease, enter target parameters.\n"
+        elif self.attacking == True:
+            return "\nServer attacking (" + self.attack + ") target: " + self.target_ip + "\n"  
+        else:
+            return "\nServer started, waiting for client connections...\n"
+            
     def setup_target_parameters():
         
     def start_attack():
