@@ -1,4 +1,5 @@
 import threading
+import socket
 
 class netbot:
     def __init__(self, id, is_start, ip_address):
@@ -9,7 +10,7 @@ class netbot:
 
 class Server:
     def __init__(self):
-        self.socketfd = -1
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         self.attacking = False
         self.attack = "None"
@@ -20,18 +21,6 @@ class Server:
         self.netbots = []
         self.threads = []
         self.tListener = threading.Thread()
-
-    def get_server_fd(self):
-        return self.socketfd
-    
-    def set_server_fd(self, socketfd):
-        self.socketfd = socketfd
-
-    def set_attack(self, attack):
-        self.attack = attack
-    
-    def is_attacking(self):
-        return self.attacking
 
     def server_status():
         
