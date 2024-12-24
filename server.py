@@ -1,18 +1,26 @@
 
 class Server:
-    def server_status():
+    def server_status(self):
+        pass
         
-    def setup_target_parameters():
+    def setup_target_parameters(self):
+        pass
         
-    def start_attack():
+    def start_attack(self):
+        pass
         
-    def close_connected_sockets():
+    def close_connected_sockets(self):
+        pass
     
-    def list_bots():
+    def list_bots(self):
+        pass
         
-    def setup_attack_type():
+    def setup_attack_type(self):
+        pass
         
-    def threaded():
+    def threaded(self):
+        pass
     
-    def connection_listener():    
+    def connection_listener(self):  
+        pass  
     
