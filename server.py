@@ -18,6 +18,7 @@ class Server:
         self.target_port = 0
 
         self.netbots = []
+        self.threads = []
         self.tListener = threading.Thread()
 
     def get_server_fd(self):
@@ -25,6 +26,12 @@ class Server:
     
     def set_server_fd(self, socketfd):
         self.socketfd = socketfd
+
+    def set_attack(self, attack):
+        self.attack = attack
+    
+    def is_attacking(self):
+        return self.attacking
 
     def server_status():
         
