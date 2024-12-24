@@ -22,6 +22,9 @@ class Server:
 
     def get_server_fd(self):
         return self.socketfd
+    
+    def set_server_fd(self, socketfd):
+        self.socketfd = socketfd
 
     def server_status():
         
