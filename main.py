@@ -9,7 +9,7 @@ from server import Server
 pid = None
 server_started = False
 server_fd = None
-server_address = ('0.0.0.0', 8080)
+server_address = ('127.0.0.1', 8000)
 attacking = False
 
 
@@ -37,7 +37,7 @@ def start_server():
             print(f"Setsockopt failed: {err}")
             sys.exit(1)
         
-        server_address = ("0.0.0.0", 8080)
+        server_address = ("127.0.0.1", 8000)
         
         # bind address and port to the socket
         try:
