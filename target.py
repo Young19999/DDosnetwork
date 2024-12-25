@@ -1,7 +1,7 @@
 import http.server
 import socketserver
 
-PORT = 8080
+PORT = 8000
 
 class MyHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
