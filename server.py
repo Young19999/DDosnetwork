@@ -132,7 +132,7 @@ class Server:
             if int_choice in [1, 2, 3, 4, 5, 6]:
                 break
         
-    def threaded(i):
+    def threaded(self, i):
         buffer = bytearray(1024)
         try:
             while True:
@@ -158,7 +158,7 @@ class Server:
             print(f"Error: {e}", flush=True)
             i.close()
     
-    def connection_listener(i):
+    def connection_listener(self, i):
         while len(netbots) != 10:
             client_socket, client_address = i.accept()
             client_ip = client_address[0]
@@ -169,7 +169,7 @@ class Server:
             netbots.append(netbot)
 
             # 创建并启动
-            thread = threading.Thread(target=threaded, args=(client_socket,))
+            thread = threading.Thread(target=self.threaded, args=(client_socket,))
             thread.daemon = True # 设置为守护线程
             thread.append(thread)
             thread.start()    
