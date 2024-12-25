@@ -19,7 +19,7 @@ def main():
         sys.stderr.write("[ERROR] %s\n" % msg[1])
         sys.exit(1)
 
-    server_address = ('10.0.2.4', 8080)
+    server_address = ("127.0.0.1", 8080)
     sock.connect(server_address)
 
     message = b'Hello'

