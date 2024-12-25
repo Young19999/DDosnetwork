@@ -9,7 +9,7 @@ from server import Server
 pid = None
 server_started = False
 server_fd = None
-server_address = ('0.0.0.0', 8080)
+server_address = ('127.0.0.1', 8000)
 attacking = False
 
 
