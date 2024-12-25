@@ -6,10 +6,10 @@ import threading
 
 from server import Server
 
-pid = None
+pid = -1
 server_started = False
 server_fd = None
-server_address = ('127.0.0.1', 8080)
+server_address = ("127.0.0.1", 8080)
 attacking = False
 
 
@@ -53,8 +53,8 @@ def start_server():
             print(f"Listen failed: {err}")
             sys.exit(1)
         
-        server_instance = Server()
-        tListener = threading.Thread(target = server_instance.connection_listener, args = (1, ))
+        server_instance = Server(server_fd)
+        tListener = threading.Thread(target=server_instance.connection_listener, args = (1, ))
         tListener.daemon = True
         tListener.start()
     
