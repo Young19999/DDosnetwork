@@ -21,7 +21,7 @@ class Server:
         self.target_ip = "None"
         self.target_port = 0
 
-        self.self.netbots = []
+        self.netbots = []
         self.threads = []
         self.tListener = threading.Thread()
 
@@ -169,6 +169,6 @@ class Server:
             # 创建并启动
             thread = threading.Thread(target=self.threaded, args=(client_socket,))
             thread.daemon = True # 设置为守护线程
-            thread.append(thread)
+            self.threads.append(thread)
             thread.start()    
     
