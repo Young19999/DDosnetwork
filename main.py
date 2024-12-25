@@ -54,7 +54,7 @@ def start_server():
             sys.exit(1)
         
         server_instance = Server()
-        tListener = threading.Thread(target=server_instance.connection_listener, args = (1, ))
+        tListener = threading.Thread(target = server_instance.connection_listener, args = (1, ))
         tListener.daemon = True
         tListener.start()
     
