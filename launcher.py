@@ -14,4 +14,4 @@ def launch_netbot(instance_count: int):
 
 if __name__ == "__main__":
     # 启动 5 个 netbot 实例（根据需求调整数量）
-    launch_netbot(5)
+    launch_netbot(10)
