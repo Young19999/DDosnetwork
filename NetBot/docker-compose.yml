@@ -1,0 +1,10 @@
+services:
+  netbot:
+    image: netbot
+    deploy:
+      replicas: 10  # 启动 10 个容器
+    environment:
+      TARGET_IP: "host.docker.internal"
+      TARGET_PORT: "8080"
+      THREADS: "50"
+    restart: no
