@@ -2,6 +2,7 @@ import os
 import socket
 import signal
 import sys
+import time
 
 pid = -1
 
@@ -19,7 +20,10 @@ def main():
         sys.stderr.write("[ERROR] %s\n" % msg[1])
         sys.exit(1)
 
-    server_address = ("127.0.0.1", 8080)
+    # target_ip = os.getenv("TARGET_IP", "host.docker.internal")
+    # target_port = int(os.getenv("TARGET_PORT", 8080))
+    # ip = socket.gethostbyname(socket.gethostname())
+    server_address = ("host.docker.internal", 8080)
     sock.connect(server_address)
 
     message = b'Hello'
@@ -64,6 +68,9 @@ def main():
                 cmd = f"httperf --server {seglist[1]} --port {seglist[2]} --uri / --num-conns 10000 --rate 500"
 
             os.system(cmd)
+
+        while True:
+            time.sleep(1000)
 
         return
     
