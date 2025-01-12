@@ -20,9 +20,6 @@ def main():
         sys.stderr.write("[ERROR] %s\n" % msg[1])
         sys.exit(1)
 
-    # target_ip = os.getenv("TARGET_IP", "host.docker.internal")
-    # target_port = int(os.getenv("TARGET_PORT", 8080))
-    # ip = socket.gethostbyname(socket.gethostname())
     server_address = ("host.docker.internal", 8080)
     sock.connect(server_address)
 

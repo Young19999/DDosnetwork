@@ -5,3 +5,4 @@ services:
       replicas: 10  # 启动 10 个容器
     extra_hosts:
       - "host.docker.internal:host-gateway"
+

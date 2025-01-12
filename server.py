@@ -147,7 +147,7 @@ class Server:
     def connection_listener(self, i):
         while len(self.netbots) != 10:
             client_socket, client_address = self.socketfd.accept()
-            print(f"Client connected: {client_address[0]} : {client_address[1]}\tTotal Bots Connected: {len(self.netbots)}")
+            print(f"Client connected: {client_address[1]}\tTotal Bots Connected: {len(self.netbots)}")
 
             # 将客户端信息添加到netbots列表
             netbot = Netbot(id = client_socket, is_start = False, address = client_address)
